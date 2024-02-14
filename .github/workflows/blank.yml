@@ -25,3 +25,26 @@ jobs:
         working-directory: artemmis
         run: |
          git checkout 2.0.0
+
+
+      - name: Build Image
+        working-directory: artemmis
+        run: |
+         docker image build -t  us-central1-docker.pkg.dev/terraform-project-aug/artemis/artemis:2.0.0   . 
+
+
+      # Authenticate to GCP
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.SERVICE_ACCOUNT }}'
+
+
+      - name: Push  Image
+        working-directory: artemmis
+        run: |
+         docker image push  us-central1-docker.pkg.dev/terraform-project-aug/artemis/artemis:2.0.0 
+
+
+
