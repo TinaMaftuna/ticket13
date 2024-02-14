@@ -22,5 +22,6 @@ jobs:
 
 
       - name: Change version
+        working-directory: artemmis
         run: |
          git checkout 2.0.0
