@@ -22,7 +22,7 @@ jobs:
 
 
       - name: Change version
-        working-directory: artemmis
+        working-directory: artemis
         run: |
          git checkout 2.0.0
 
