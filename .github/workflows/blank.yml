@@ -18,19 +18,19 @@ jobs:
 
       - name: Clone a repo 
         run: |
-         git clone https://github.com/farrukh90/artemis.git
+          git clone https://github.com/farrukh90/artemis.git
 
 
       - name: Change version
         working-directory: artemis
         run: |
-         git checkout 2.0.0
+          git checkout 2.0.0
 
 
       - name: Build Image
         working-directory: artemmis
         run: |
-         docker image build -t  us-central1-docker.pkg.dev/terraform-project-aug/artemis/artemis:2.0.0   . 
+          docker image build -t  us-central1-docker.pkg.dev/terraform-project-aug/artemis/artemis:2.0.0   . 
 
 
       # Authenticate to GCP
