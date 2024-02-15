@@ -1,0 +1,61 @@
+# This is a basic workflow to help you get started with Actions
+env: 
+  repo: https://github.com/farrukh90/nodejs.git
+  app_version: 2.0.0
+  app_name: nodejs
+  region: ${{ env.region }}
+
+name: Build
+
+on:
+  
+  push:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Clone a repo 
+        run: |
+          git clone ${{env.repo}}
+
+
+      - name: Change version
+        working-directory: ${{ env.app_name }}
+        run: |
+          git checkout ${{ env.app_version }}
+
+
+      - name: Build Image
+        working-directory: ${{ env.app_name }}
+        run: |
+          docker image build -t  ${{ env.region }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ env.app_name }}/${{ env.app_name }} ${{ env.app_version }}   . 
+
+
+      # Authenticate to GCP
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.SERVICE_ACCOUNT }}'
+    
+      - name: Authenticate to repository
+        run: |
+          gcloud auth configure-docker  ${{ env.region }}-docker.pkg.dev
+
+        
+
+
+      - name: Push  Image
+        working-directory: artemmis
+        run: |
+         docker image push  ${{ env.region }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ env.app_name }}/${{ env.app_name }} ${{ env.app_version }} 
+
+
+
