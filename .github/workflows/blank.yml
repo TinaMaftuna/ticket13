@@ -28,7 +28,7 @@ jobs:
 
 
       - name: Build Image
-        working-directory: artemmis
+        working-directory: artemis
         run: |
           docker image build -t  us-central1-docker.pkg.dev/terraform-project-aug/artemis/artemis:2.0.0   . 
 
